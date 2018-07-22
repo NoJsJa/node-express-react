@@ -1,0 +1,11 @@
+node_modules/
+npm-debug.*
+public/node_modules/
+.atom/
+.idea/
+.vscode
+.ftpconfig
+npm-debug.log
+website/logs/*
+mongodb/data/*
+mongodb/logs/*
