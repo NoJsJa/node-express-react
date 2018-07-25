@@ -83,7 +83,7 @@
 
 项目采用pm2进程管理器进行启动，同时pm2支持：监听指定的目录和文件变动自动重启node进程、cluster模式下多个node运行实例的负载均衡管理、服务运行日志处理、node进程监控面板，并且采用了mongodb 和 mongoose池进行持久化session处理。  
 
-启动流程说明: 首先需要将 mongodb-linux-x86_64-rhel70-3.6.4.tgz、node-v8.11.1-linux-x64.gzip、node-express-react.tar.gz 传输到指定的服务器的同级目录下，然后解压 node-express-react.tar.gz 启动安装脚本，安装好之后会自动启动生产环境(pm2.prod.sh)，生产环境下没有代码热更新功能，如果更新了node.js的代码，需要手动到服务器上执行 pm2 restart node-express-react ，开发者如果要启动开发环境则需要进入代码目录执行 bash pm2.dev.sh，开发环境下可以代码热更新，并且会自动开启日志信息打印。 一般 pm2.prod.sh/pm2.dev.sh 只用启动一次就行，启动之后前端进程的管理是通过pm2进程管理器来管理的，可以自己查看一下pm2命令，以下会有说明。值得注意的是 服务器在重启之后 前端服务frontend会自动启动，但是是以linux service的形式启动的，此模式下不能用于开发者开发，因为不能使用pm2的命令和功能，一般用于生产环境，这个情况下要启动开发环境需要先关闭frontend服务 service frontend stop(所有可执行命令 service frontend start/stop/startDev)，然后进入到前端代码目录手动执行相关的脚本文件(bash pm2.dev.sh/pm2.prod.sh)。
+启动流程说明: 首先需要将 `mongodb-linux-x86_64-rhel70-3.6.4.tgz、node-v8.11.1-linux-x64.gzip、node-express-react.tar.gz` 传输到指定的服务器的同级目录下，然后解压 node-express-react.tar.gz 启动安装脚本，安装好之后会自动启动生产环境(pm2.prod.sh)，生产环境下没有代码热更新功能，如果更新了node.js的代码，需要手动到服务器上执行 `pm2 restart node-express-react` ，开发者如果要启动开发环境则需要进入代码目录执行 `bash pm2.dev.sh`，开发环境下可以代码热更新，并且会自动开启日志信息打印。 一般 `pm2.prod.sh/pm2.dev.sh` 只用启动一次就行，启动之后前端进程的管理是通过pm2进程管理器来管理的，可以自己查看一下pm2命令，以下会有说明。值得注意的是 服务器在重启之后 前端服务`frontend`会自动启动，但是是以`linux service`的形式启动的，此模式下不能用于开发者开发，因为不能使用pm2的命令和功能，一般用于生产环境，这个情况下要启动开发环境需要先关闭`frontend`服务 `service frontend stop`(所有可执行命令 `service frontend start/stop/startDev`)，然后进入到前端代码目录手动执行相关的脚本文件(`bash pm2.dev.sh/pm2.prod.sh`)。
 
 配置步骤如下:  
 
