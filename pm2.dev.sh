@@ -3,7 +3,7 @@
 #------------------ [01] 检测端口占用启动mongodb ------------------#
 dbpath='./mongodb/data'
 dblogpath='./mongodb/logs/'
-dbhost='127.0.0.1'
+dbhost='0.0.0.0'
 port=27017
 
 # 01 make dbpath
@@ -57,12 +57,12 @@ NODE_ENV=development \
 pm2 start ./bin/www.js \
 --name "node-express-react" \
 --watch \
---ignore-watch "public website/logs mongodb .git .atom" \
+--ignore-watch "public website/logs mongodb node_modules .git .atom" \
 --restart-delay 1000 \
 --service-name pm2-node \
 --max-memory-restart 500M \
 --env development \
--- mock mongo-session
+-- mock mongo-session mongo-disable
 
 # 控制台打印日志
 pm2 logs

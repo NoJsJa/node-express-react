@@ -28,9 +28,12 @@ const accessRouter = ModuleLoader('controller', 'access.controller.js');  // acc
 
 /* env condition */
 const isMockAvailable = process.argv.indexOf('mock') !== -1;  // going to use mock routers
-const isMongoAvailable = process.argv.indexOf('mongo-session') !== -1;  // going to use mongo-session
+let isMongoAvailable = process.argv.indexOf('mongo-session') !== -1;  // going to use mongo-session
 const isEnvDev = process.env.NODE_ENV === 'development';  // NODE_ENV -- development
 const isEnvProd = process.env.NODE_ENV === 'production';  // NODE_ENV -- production
+const isMongoDisable = process.argv.indexOf('mongo-disable') !== -1;  // disable mongodb
+
+isMongoAvailable = (isMongoAvailable && !isMongoDisable);  // 判断是否要通过mongo管理session
 
 /* view engine */
 app.set('views', path.join(__dirname, 'views'));
@@ -104,7 +107,7 @@ app.use(function(err, req, res, next) {
 const processKill = function () {
   console.log('kill');
   // auto close connection when in production mode
-  if (Mongoose && isEnvProd) {
+  if (isMongoAvailable && Mongoose && isEnvProd) {
 
     Mongoose.connection.close(function () {
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 dbpath='./mongodb/data'
 dblogpath='./mongodb/logs/mongod.log'
-dbhost='127.0.0.1'
+dbhost='0.0.0.0'
 port=27017
 
 # 01 make dbpath

@@ -5,7 +5,7 @@
 #------------------ [01] 检测端口占用启动mongodb ------------------#
 dbpath='./mongodb/data'
 dblogpath='./mongodb/logs'
-dbhost='127.0.0.1'
+dbhost='0.0.0.0'
 port=27017
 
 # 01 make dbpath
@@ -65,4 +65,4 @@ pm2 start ./bin/www.js \
 --max-memory-restart 500M \
 --max-restarts 10 \
 --env production \
--- mongo-session
+-- mongo-session mongo-disable

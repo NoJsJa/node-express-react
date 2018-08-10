@@ -9,6 +9,8 @@ cd ..
 dirname=`pwd`
 mongodb=mongodb-linux-x86_64-rhel70-3.6.4
 node=node-v8.11.1-linux-x64
+webport=3000
+dbport=27017
 
 # # 删除旧数据
 rm "$node" -rf
@@ -31,9 +33,15 @@ do
   sudo ln -s "$dirname/$mongodb/bin/$biname" /usr/bin -f
 done
 
-# # 防火墙开启3000端口并重启
-firewall-cmd --zone=public --add-port=3000/tcp --permanent
+# # 防火墙开启 3000(node) / 27017(mongodb) 端口并重启
+firewall-cmd --zone=public --add-port=$webport/tcp --permanent
+firewall-cmd --zone=public --add-port=$dbport/tcp --permanent
 firewall-cmd --reload
+# # iptables开放端口3000和27017的规则
+iptables -I INPUT -p tcp --dport $webport -j ACCEPT
+iptables -I INPUT -p tcp --dport $dbport -j ACCEPT
+iptables -I OUTPUT -p tcp --dport $webport -j ACCEPT
+iptables -I OUTPUT -p tcp --dport $dbport -j ACCEPT
 
 # 将前端服务写入开机自启动命令 -- refused
 # if [ -z `grep 'frontend-service' /etc/rc.d/rc.local` ] ; then
@@ -56,4 +64,4 @@ bash scripts/frontend stop
 cd "$dirname/node-express-react"
 rm mongodb/data -rf
 sudo chmod 755 pm2.dev.sh pm2.prod.sh
-./pm2.prod.sh
+bash pm2.prod.sh
