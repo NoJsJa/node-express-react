@@ -10,17 +10,15 @@ then
   mkdir "$dbpath" -p
 fi
 
-echo "--------- checking mongodb status ---------"
 # 02 start mongodb
-echo "check mongodb $port"
+echo ">>> now check mongodb $port"
 grep_port=`netstat -tlpn | grep "\b$port\b"`
 
 if [ -n "$grep_port" ]
 then
-  echo "----- $grep_port -----"
-  echo "mongodb already started in port:$port"
+  echo "   mongodb already started in port:$port"
 else
-  echo "trying to start mongodb service."
+  echo "   trying to start mongodb service."
 
   mongod \
   --dbpath="$dbpath" \
