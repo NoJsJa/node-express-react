@@ -23,12 +23,8 @@ dbhost='0.0.0.0'
 port=27017
 
 # 01 make dbpath
-for path in "$dbpath" "$dblogpath"; do
-  if [ ! -d "$path" ]
-  then
-    mkdir "$path" -p
-  fi
-done
+mkdir "$dbpath" -p
+mkdir "$dblogpath" -p
 
 # 02 start mongodb
 echo ">>> now check mongodb $port..."
