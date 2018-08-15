@@ -1,10 +1,25 @@
 #!/bin/bash
+# 请在项目根目录下执行
 
-# 请在项目根目录下执行 #
+#------------------- [01] 环境安装 --------------------#
 
-#------------------ [01] 检测端口占用启动mongodb ------------------#
-dbpath='./mongodb/data'
-dblogpath='./mongodb/logs'
+# # 获取声明的全局系统变量
+getPath() {
+  # var -- FrontEndDir
+  for var in `cat /etc/frontend`; do
+    a=`echo $var | awk -F '=' '{print $1}'`
+    b=`echo $var | awk -F '=' '{print $2}'`
+    export $a=$b
+  done
+  if [ -z $FrontEndDir ] ; then
+    echo ">>> get default FrontEndDir ... "
+    FrontEndDir=/opt/Web/node-express-react
+  fi
+}
+
+getPath
+dbpath="$FrontEndDir/mongodb/data"
+dblogpath="$FrontEndDir/mongodb/logs/"
 dbhost='0.0.0.0'
 port=27017
 
@@ -33,10 +48,11 @@ else
 fi
 
 # 03 dbinit
-mongo ./scripts/db-init\(mongo-shell\).js
+mongo $FrontEndDir/scripts/db-init\(mongo-shell\).js
 
 # 04 chmod
-sudo chmod 755 scripts/db-check.sh scripts/db-stop.sh
+sudo chmod 755 $FrontEndDir/scripts/db-check.sh
+sudo chmod 755 $FrontEndDir/scripts/db-stop.sh
 
 #------------------- [02] 启动pm2服务进程 --------------------#
 
@@ -57,7 +73,7 @@ sudo chmod 755 scripts/db-check.sh scripts/db-stop.sh
 pm2 delete node-express-react
 
 NODE_ENV=production \
-pm2 start ./bin/www.js \
+pm2 start $FrontEndDir/bin/www.js \
 --name "node-express-react" \
 --restart-delay 1000 \
 --service-name pm2-node \

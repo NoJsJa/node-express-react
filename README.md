@@ -23,7 +23,7 @@
 #### Catalog & Files
 > 目录和文件说明  
 
-[file] initialization.sh -- Centos7虚拟机 前端服务部署脚本  
+[file] init.sh -- Centos7虚拟机 前端服务部署脚本  
 [file] pm2.dev.sh -- 项目开发环境启动脚本  
 [file] pm2.prod.sh -- 项目生产环境启动脚本  
 
@@ -89,10 +89,10 @@
 
 1. Centos7虚拟机前端服务部署 - 部署之后才能执行以下步骤
 ```sh
-# * 可能需要赋予执行权限 sudo chmod 755 initialization.sh
+# * 可能需要赋予执行权限 sudo chmod 755 init.sh
 # * 脚本将安装nodejs-v8、npm-v5、mongodb-v3、pm2进程管理工具，并将相关的可执行文件加入环境变量，最后将自动运行前端服务并监听文件变化
 # > 注意请在上一级目录存放前端环境安装包(node-v8.11.1-linux-x64.tar.xz / mongodb-linux-x86_64-3.4.15.tgz)
-$: bash initialization.sh
+$: bash init.sh
 ```
 
 2. 开发环境启动

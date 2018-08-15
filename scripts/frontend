@@ -3,6 +3,14 @@
 #chkconfig:23456 70 30
 #description: frontend-service auto start
 
+# # 变量读取
+# var -- FrontEndDir
+for var in `cat /etc/frontend`; do
+  a=`echo $var | awk -F '=' '{print $1}'`
+  b=`echo $var | awk -F '=' '{print $2}'`
+  export $a=$b
+done
+
 # # Function
 
 # 停止pm2进程
@@ -15,11 +23,11 @@ stop() {
 
 # 重启pm2进程
 start() {
-  cd /opt/infinity/node-express-react
+  cd $FrontEndDir
   bash pm2.$1.sh
 }
 
-# # MAIN
+# # Main Action
 case $1 in
 
   start )
