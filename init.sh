@@ -20,8 +20,8 @@ sed '/export FrontEndDir=/'d /etc/profile -i
 sudo echo "export FrontEndDir=$dirname/node-express-react" >> /etc/profile
 source /etc/profile
 # # 存入文件
-rm /etc/frontend -f
 touch /etc/frontend
+sed '/FrontEndDir=/'d /etc/frontend -i
 echo "FrontEndDir=$dirname/node-express-react" >> /etc/frontend
 
 # # 删除旧数据

@@ -33,9 +33,9 @@ grep_port=`netstat -tlpn | grep "\b$port\b"`
 
 if [ -n "$grep_port" ]
 then
-  echo "   mongodb already started in port:$port"
+  echo ">>> mongodb already started in port:$port ... "
 else
-  echo "   trying to start mongodb service."
+  echo ">>> trying to start mongodb service ... "
 
   mongod \
   --dbpath="$dbpath" \
@@ -44,11 +44,11 @@ else
 fi
 
 # 03 dbinit
-mongo $FrontEndDir/scripts/db-init\(mongo-shell\).js
+mongo $FrontEndDir/mongodb/db-init\(mongo-shell\).js
 
 # 04 chmod
-sudo chmod 755 $FrontEndDir/scripts/db-check.sh
-sudo chmod 755 $FrontEndDir/scripts/db-stop.sh
+sudo chmod 755 $FrontEndDir/mongodb/db-check.sh
+sudo chmod 755 $FrontEndDir/mongodb/db-stop.sh
 
 #------------------- [02] 启动pm2服务进程 --------------------#
 

@@ -1,0 +1,88 @@
+#!/bin/bash
+#add for chkconfig
+#chkconfig:23456 70 30
+#description: mongo-service auto start
+
+# # 变量读取
+# var -- MongodbDir
+for var in `cat /etc/frontend`; do
+  a=`echo $var | awk -F '=' '{print $1}'`
+  b=`echo $var | awk -F '=' '{print $2}'`
+  export $a=$b
+done
+if [ -z $MongodbDir ] ; then
+  echo ">>> You need to exec init.sh first ... "
+  echo ">>> now exit ..."
+  exit 0
+fi
+
+# # 变量声明
+dbpath="$MongodbDir/data"
+dblogpath="$MongodbDir/logs/"
+dbhost='0.0.0.0'
+port=27017
+
+# # Function
+
+# # 停止pm2进程
+stop() {
+  echo ">>> going to shutdown mongodb ... "
+  mongod --shutdown --dbpath "$dbpath"
+}
+
+# # 启动mongodb进程
+start() {
+  # 01 make dbpath
+  mkdir "$dbpath" -p
+  mkdir "$dblogpath" -p
+
+  echo ">>> now check mongodb $port ... "
+  grep_port=`netstat -tlpn | grep "\b$port\b"`
+
+  if [ -n "$grep_port" ]
+  then
+    echo ">>> mongodb already started in port:$port ..."
+  else
+    echo ">>> trying to start mongodb service ..."
+
+    mongod \
+    --dbpath="$dbpath" \
+    --logpath="$dblogpath/mongod.log" \
+    --bind_ip="$dbhost" --logappend --quiet --journal --fork
+  fi
+}
+
+# # 重启mongodb进程
+restart() {
+  stop
+  start
+}
+
+# # 清理所有数据
+clean() {
+  stop
+  rm "$dbpath" -rf
+  rm "$dblogpath" -rf
+  start
+}
+
+# # Main Action
+case $1 in
+
+  start )
+    start
+  ;;
+
+  stop )
+    stop
+  ;;
+
+  restart )
+    restart
+  ;;
+
+  clean )
+    clean
+  ;;
+
+esac

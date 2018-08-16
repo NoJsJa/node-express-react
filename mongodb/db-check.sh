@@ -1,6 +1,6 @@
 #!/bin/bash
-dbpath='$FrontEndDir/mongodb/data'
-dblogpath='$FrontEndDir/mongodb/logs/mongod.log'
+dbpath="$FrontEndDir/mongodb/data"
+dblogpath="$FrontEndDir/mongodb/logs/mongod.log"
 dbhost='0.0.0.0'
 port=27017
 
@@ -27,4 +27,4 @@ else
 fi
 
 # 03 dbinit
-mongo $FrontEndDir/scripts/db-init\(mongo-shell\).js
+mongo $FrontEndDir/mongodb/db-init\(mongo-shell\).js

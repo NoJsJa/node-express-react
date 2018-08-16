@@ -33,6 +33,10 @@
 [dir ] bin -- node服务启动文件目录  
 [dir ] views -- 前端部分页面模板文件  
 [dir ] mongodb -- mongodb数据库目录  
+[file] ..... mongodb/db-init(mongo-shell).js -- mongodb初始化  
+[file] ..... mongodb/db-rename(mongo-shell).js -- mongodb重命名数据库  
+[file] ..... mongodb/db-stop.sh -- 关闭mongodb进程服务  
+[file] ..... mongodb/db-check.sh -- 检查mongodb进程状态  
 
 [dir ] public -- 前端文件存储目录  
 [dir ] ..... public/public -- 前端自定义文件托管目录  
@@ -49,10 +53,6 @@
 [file] .......... public/dist/index.js -- webpack打包的bundle文件  
 
 [dir ] scripts -- mongodb相关的脚本  
-[file] ..... scripts/db-init(mongo-shell).js -- mongodb初始化  
-[file] ..... scripts/db-rename(mongo-shell).js -- mongodb重命名数据库  
-[file] ..... scripts/db-stop.sh -- 关闭mongodb进程服务  
-[file] ..... scripts/db-check.sh -- 检查mongodb进程状态  
 [file] ..... scripts/frontend.sh -- 前端chkconfig服务注册脚本  
 
 [dir ] website -- 项目主代码目录  
