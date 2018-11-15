@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 
 const path = require('path');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const execFile = require('child_process').execFile;
@@ -25,6 +26,7 @@ const Mock = ModuleLoader('mock', 'index.js');
 /* router */
 const indexRouter = ModuleLoader('controller', 'index.controller.js');  // index router
 const accessRouter = ModuleLoader('controller', 'access.controller.js');  // access controller
+const testRouter = ModuleLoader('controller', 'test.controller.js');  // access controller
 
 /* env condition */
 const isMockAvailable = process.argv.indexOf('mock') !== -1;  // going to use mock routers
@@ -39,7 +41,6 @@ isMongoAvailable = (isMongoAvailable && !isMongoDisable);  // 判断是否要通
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
 /* ************************* middleware ************************* */
 
 /* console logger */
@@ -50,6 +51,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 /* cookie parser */
 app.use(cookieParser());
+/* enable CORS  */
+app.use(cors());
 /* session store */
 Mongoose = SessionStore(isMongoAvailable, app);
 
@@ -77,6 +80,7 @@ app.use('/', conflict);
 
 /* ------------------- router ------------------- */
 app.use('/', accessRouter);
+app.use('/', testRouter);
 
 /* ------------------- inspector ------------------- */
 

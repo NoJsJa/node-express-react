@@ -1,1 +1,28 @@
-<!DOCTYPE html><html lang=en><head>    <meta charset=UTF-8>    <meta name=viewport content="width=device-width,initial-scale=1">    <meta http-equiv=X-UA-Compatible content="ie=edge">    <title>React Test</title><link href=/styles/index.css?72028ed73a55138d809d rel=stylesheet></head><body>    <div id=app></div><script type=text/javascript src=/js/reactDom.js?72028ed73a55138d809d></script><script type=text/javascript src=/js/react.js?72028ed73a55138d809d></script><script type=text/javascript src=/index.js?72028ed73a55138d809d></script></body></html>
+<!DOCTYPE html>
+<html lang=en>
+  <head>
+    <meta charset=UTF-8>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta http-equiv=X-UA-Compatible content="ie=edge">
+    <title>React Test</title>
+    <link href=/styles/index.css?72028ed73a55138d809d rel=stylesheet>
+  </head>
+  <body>
+    <div id=app></div>
+    <script type=text/javascript src=/js/reactDom.js?72028ed73a55138d809d></script>
+    <script type=text/javascript src=/js/react.js?72028ed73a55138d809d></script>
+    <script type=text/javascript src=/index.js?72028ed73a55138d809d></script>
+    <script type="text/javascript">
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://10.0.6.204:3000/cors/test', true);
+      // xhr.setRequestHeader('X-Custom-Header', 'value');
+      xhr.onreadystatechange = function(){
+        if (xhr.readyState == 4 && xhr.status==200) {
+          console.log(xhr.responseText);
+        }
+      };
+      xhr.send();
+    </script>
+  </body>
+</html>
