@@ -15,10 +15,11 @@ done
 
 # 停止pm2进程
 stop() {
-  for pnumber in `pgrep PM2`
-  do
-    kill -3 $pnumber
-  done
+  # for pnumber in `pgrep PM2`
+  # do
+  #   kill -3 $pnumber
+  # done
+  pkill PM2
 }
 
 # 重启pm2进程

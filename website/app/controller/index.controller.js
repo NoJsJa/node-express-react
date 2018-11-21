@@ -4,26 +4,20 @@ const path = require('path');
 const router = express.Router();
 
 const access_token = 'sfdaksfdjlsdkfskd';
-const loginInspector = require('../inspector/login.js');  // 登录拦截器
 
 /* get home pagetest */
 router.get('/', function(req, res, next) {
 
-  // 这个路由需要添加登录检测
-  loginInspector(req, res, () => {
-
-    fs.readFile(`${_path.dist}/index.html`, (err, data) => {
-      if (err) {
-        console.error(err);
-        return res.render('error', {
-          message: lang['public'].request_error,
-          error: err }
-        );
-      }
-      res.set('Content-Type', 'text/html');
-      res.send(data);
-    });
-
+  fs.readFile(`${_path.dist}/index.html`, (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.render('error', {
+        message: lang['public'].request_error,
+        error: err }
+      );
+    }
+    res.set('Content-Type', 'text/html');
+    res.send(data);
   });
 
 });

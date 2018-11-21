@@ -1,8 +1,9 @@
 #!/bin/bash
+# run this script in root path
 
-#------------------- [01] 环境安装 --------------------#
+#------------------- init bash env and start mongodb --------------------#
 
-# # 获取声明的全局系统变量
+# # parse global variable
 getPath() {
   # var -- FrontEndDir
   for var in `cat /etc/frontend`; do
@@ -45,25 +46,26 @@ fi
 # 03 dbinit
 mongo $FrontEndDir/mongodb/db-init\(mongo-shell\).js
 
-# 04 chmod
+# 04 chmod file
 sudo chmod 755 $FrontEndDir/mongodb/db-check.sh
 sudo chmod 755 $FrontEndDir/mongodb/db-stop.sh
 
-#------------------- [02] 启动pm2服务进程 --------------------#
+#------------------- start pm2 service --------------------#
 
-# [node]param - NODE_ENV - 开发模式启动node
-# [pm2]param - name - 应用名字
-# [pm2]param - restart-delay - 应用重启相隔的最小延迟
-# [pm2]param - service-name - 服务名
-# [pm2]param - max-memory-restart - 超过内存限制后服务器重启
-# [pm2]param - env - 开发模式启动pm2
-# [node]param - mock - 启动模拟数据模块
-# [node]param - mongo-session - 启动mongodb持久化数据存储
-# [pm2]param - watch - 文件变化监听重启 -- Centos7虚拟机上会导致机器卡顿
-# [pm2]param - ignore-watch - 忽略监听 -- Centos7虚拟机上会导致机器卡顿
+# [node] param - NODE_ENV - 开发模式启动node
+# [pm2 ] param - name - 应用名字
+# [pm2 ] param - restart-delay - 应用重启相隔的最小延迟
+# [pm2 ] param - service-name - 服务名
+# [pm2 ] param - max-memory-restart - 超过内存限制后服务器重启
+# [pm2 ] param - env - 开发模式启动pm2
+# [node] param - mock - 启动模拟数据模块
+# [node] param - mongo-session - 启动mongodb持久化数据存储
+# [pm2 ] param - watch - 文件变化监听重启 -- Centos7虚拟机上会导致机器卡顿
+# [pm2 ] param - ignore-watch - 忽略监听 -- Centos7虚拟机上会导致机器卡顿
 
-# 停止之前的进程
+# stop node process before
 pm2 delete node-express-react
+systemctl stop frontend
 
 NODE_ENV=development \
 pm2 start $FrontEndDir/bin/www.js \
@@ -76,5 +78,5 @@ pm2 start $FrontEndDir/bin/www.js \
 --env development \
 -- mock mongo-session mongo-disable
 
-# 控制台打印日志
+# show console dev logs
 pm2 logs

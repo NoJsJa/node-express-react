@@ -9,7 +9,6 @@ const path = require('path');
 const router = express.Router();
 
 const access_token = 'sfdaksfdjlsdkfskd';
-const loginInspector = ModuleLoader('inspector', 'login.js');  // 登录拦截器
 
 /**
  * [AccessControl 权限控制和管理]

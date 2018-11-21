@@ -1,7 +1,7 @@
 #!/bin/bash
-# 请在项目根目录下执行
+# run this script in root path
 
-#------------------- [01] 环境安装 --------------------#
+#------------------- init bash env and start mongodb --------------------#
 
 # # 获取声明的全局系统变量
 getPath() {
@@ -50,7 +50,7 @@ mongo $FrontEndDir/mongodb/db-init\(mongo-shell\).js
 sudo chmod 755 $FrontEndDir/mongodb/db-check.sh
 sudo chmod 755 $FrontEndDir/mongodb/db-stop.sh
 
-#------------------- [02] 启动pm2服务进程 --------------------#
+#------------------- start pm2 service --------------------#
 
 # [node]param - NODE_ENV - 开发模式启动node
 # [pm2]param - i - 需要启动的实例数量 -- Centos7 虚拟机下面不能开集群模式
@@ -65,8 +65,9 @@ sudo chmod 755 $FrontEndDir/mongodb/db-stop.sh
 # [pm2]param - watch - 文件变化监听重启 -- Centos7 虚拟机下面不能开集群模式
 # [pm2]param - ignore-watch - 忽略监听 -- Centos7 虚拟机下面不能开集群模式
 
-# 停止之前的进程
+# stop node process before
 pm2 delete node-express-react
+systemctl stop frontend
 
 NODE_ENV=production \
 pm2 start $FrontEndDir/bin/www.js \

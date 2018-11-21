@@ -9,12 +9,9 @@
 const express = require('express');
 const path = require('path');
 const router = express.Router();
-const loginInspector = require('./login.js');
 
 router.get('/*', function (req, res, next) {
-  loginInspector(req, res, () => {
-    res.sendFile(path.resolve(__dirname, '../../../public/dist/index.html'));
-  });
+  res.sendFile(path.resolve(__dirname, '../../../public/dist/index.html'));
 });
 
 module.exports = router;

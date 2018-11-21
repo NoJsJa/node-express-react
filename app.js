@@ -1,3 +1,4 @@
+/* node_module */
 const createError = require('http-errors');
 const express = require('express');
 const app = express();
@@ -8,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const execFile = require('child_process').execFile;
 
-/* main code path define */
+/* code path define */
 require('./website/app/inspector/path-locator.js')();
 
 /* variable */
@@ -21,6 +22,7 @@ const SessionStore = ModuleLoader('middleware', 'SessionStore.js');
 /* inspector */
 const lang = ModuleLoader('lang', 'index.js');  // inspector lang
 const conflict = ModuleLoader('inspector', 'conflict.js');  //inspector confict
+const loginInspector = ModuleLoader('inspector', 'login.js');
 const Mock = ModuleLoader('mock', 'index.js');
 
 /* router */
@@ -29,19 +31,21 @@ const accessRouter = ModuleLoader('controller', 'access.controller.js');  // acc
 const testRouter = ModuleLoader('controller', 'test.controller.js');  // access controller
 
 /* env condition */
-const isMockAvailable = process.argv.indexOf('mock') !== -1;  // going to use mock routers
-let isMongoAvailable = process.argv.indexOf('mongo-session') !== -1;  // going to use mongo-session
-const isEnvDev = process.env.NODE_ENV === 'development';  // NODE_ENV -- development
-const isEnvProd = process.env.NODE_ENV === 'production';  // NODE_ENV -- production
+const isMockAvailable = process.argv.indexOf('mock') !== -1;  // use mock routers
+let isMongoAvailable = process.argv.indexOf('mongo-session') !== -1;  // use mongo-session for session store
+global.isEnvDev = process.env.NODE_ENV === 'development';  // NODE_ENV -- development
+global.isEnvProd = process.env.NODE_ENV === 'production';  // NODE_ENV -- production
 const isMongoDisable = process.argv.indexOf('mongo-disable') !== -1;  // disable mongodb
+isMongoAvailable = (isMongoAvailable && !isMongoDisable);  // use mongo-session for session store
 
-isMongoAvailable = (isMongoAvailable && !isMongoDisable);  // 判断是否要通过mongo管理session
-
-/* view engine */
+/* express setting */
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-/* ************************* middleware ************************* */
+
+/* ************************* *
+                             middleware
+                                      * ************************* */
 
 /* console logger */
 app.use(logger('dev'));
@@ -57,7 +61,9 @@ app.use(cors());
 Mongoose = SessionStore(isMongoAvailable, app);
 
 
-/* *************** predefined router/inspector in order *************** */
+/* *************** *
+                   predefined router/inspector in order
+                                                        * *************** */
 
 /* ------------------- [01] language inspector ------------------- */
 app.use(lang);
@@ -65,18 +71,23 @@ app.use(lang);
 /* ------------------- [02] mock inspector ------------------- */
 Mock(isMockAvailable, app);
 
-/* ------------------- [03] index router ------------------- */
+/* ------------------- [03] login inspector ------------------- */
+app.use('/', loginInspector);
+
+/* ------------------- [04] index router ------------------- */
 app.use('/', indexRouter);
 
-/* ------------------- [04] static resource ------------------- */
-app.use( express.static(path.join(__dirname, 'public/dist')) );  // webpack auto
-app.use( express.static(path.join(__dirname, 'public/public')) );  // self
+/* ------------------- [05] static resource ------------------- */
+app.use( express.static(path.join(__dirname, 'public/dist')) );  // webpack
+app.use( express.static(path.join(__dirname, 'public/public')) );  // yourself
 
-/* ------------------- [05] conflict inspector ------------------- */
+/* ------------------- [06] conflict inspector ------------------- */
 app.use('/', conflict);
 
 
-/* *************** import other router/inspector below  *************** */
+/* ************** *
+                  import other router/inspector below
+                                                      * ************** */
 
 /* ------------------- router ------------------- */
 app.use('/', accessRouter);
@@ -84,6 +95,10 @@ app.use('/', testRouter);
 
 /* ------------------- inspector ------------------- */
 
+
+/* ************************ *
+                            error and exception handle
+                                                     * ************************ */
 
 /* error handlor */
 app.use(function(req, res, next) {
@@ -134,5 +149,6 @@ const processKill = function () {
 
 process.on('SIGINT', processKill);
 process.on('SIGTERM', processKill);
+
 
 module.exports = app;
