@@ -1,12 +1,15 @@
 ### node-express-react
->测试环境: node v8.11.1 | npm v5.6.0 | express v4.16.0 | Centos7 | mongodb v3.4
+>测试环境: node v8.11.1 | npm v5.6.0 | express v4.16.0 | Centos7.4 | mongodb v3.4
 
 #### Contents
+-------------
 1. Instruction
-2. Catalog & Files
-3. Configuration & Startup
+2. Commands
+3. Catalog & Files
+4. Configuration & Startup
 
 #### Instruction
+----------------
 
 > 基本说明  
 
@@ -20,10 +23,45 @@
 * lang -- [object] -- 当前载入的语言数据
 * LANG -- [string] -- 当前语言数据标识(en_us, zh_cn)
 
+#### Commands
+------------
+命令速查:
+1. 系统前端管理服务`frontend`
+```sh
+# 查看前端服务状态
+$: systemctl status frontend
+# 启动前端服务
+$: systemctl start frontend
+# 停止前端服务
+$: service frontend stop
+```
+2. pm2管理命令
+```sh
+# 查看pm2运行日志
+$: pm2 logs
+# 列举所有pm2管理的node进程
+$: pm2 list all
+# 启动所有pm2管理的node进程
+$: pm2 start all
+# 启动某个pm2管理的node进程
+$: pm2 start [id]
+# 重载某个pm2管理的node进程
+$: pm2 reload [id]
+# 停止所有pm2管理的node进程
+$: pm2 stop all
+# 启动某个pm2管理的node进程
+$: pm2 stop [id]
+# 删除所有pm2管理的node进程
+$: pm2 delete all
+# 删除某个pm2管理的node进程
+$: pm2 delete [id]
+```
+
 #### Catalog & Files
+-------------------
 > 目录和文件说明  
 
-[file] init.sh -- Centos7虚拟机 前端服务部署脚本  
+[file] init.sh -- centos7虚拟机 前端服务部署脚本  
 [file] pm2.dev.sh -- 项目开发环境启动脚本  
 [file] pm2.prod.sh -- 项目生产环境启动脚本  
 [file] app.js -- express 实例全局配置 和 中间件引入  
@@ -57,7 +95,7 @@
 [file] .......... scripts/startup/frontend.service -- 前端systemctl服务注册脚本  
 
 [dir ] website -- 项目主代码目录  
-[dir ] ..... website/app -- MAIN  
+[dir ] ..... website/app -- MAIN 该目录下创建的文件夹会被自动记入路径映射   
 [dir ] .......... website/app/controller -- 控制器  
 [dir ] .......... website/app/inspector -- 拦截器  
 [dir ] .......... website/app/middleware -- 自定义中间件  
@@ -79,13 +117,61 @@
 [file] .......... website/utils/Request.js -- axios请求处理实例  
 [file] .......... website/utils/Utils.js -- 工具函数  
 
+#### Module Details & Usage
+---------------------------
+> 模块细节和使用说明  
+
+1. 模块载入公用方法
+```js
+  /* pattern */
+  /*
+   * 已经记入路径映射下的路径
+   * controller.hyhive => path/to/controller/hyhive
+   * controller.infinity => path/to/controll/infinity
+   * controller.public => path/to/controller/public
+   * model.hyhive => path/to/model/hyhive
+   * model.infinity => path/to/model/infinity
+   * model.public => path/to/model/public
+   * mock.hyhive => path/to/mock/hyhive
+   * mock.infinity => path/to/mock/infinity
+   * mock.public => path/to/mock/public
+   * mock => path/to/mock
+   * middleware => path/to/website/app/middleware
+   * inspector => path/to/website/app/inspector
+   * utils => path/to/website/utils
+   * system => path/to/website/system
+   * lang => path/to/website/lang
+   * scripts => path/to/scripts
+   * mongodb => path/to/mongodb
+   * dist => path/to/public/dist
+   */
+  ModuleLoader(path_to_module, file_name);
+  /* demo */
+  ModuleLoader('controller.public', 'index.controller.js');
+  ModuleLoader('utils', 'Request.js');
+```
+
+2. 模块目录和文件命名区分  
+某些模块分为infinity项目和hyhive项目的独立文件夹: controller、model、mock  
+某些目录下的文件命名要对hyhive项目和infinity项目进行区分: 请注意lang目录下的的语言文件命名  
+某些模块需要根据模块功能进行命名体现：controller、model、mock -- xxx.controller.js、xxx.model.js、xxx.mock.js  
+
+3. 语言文件说明  
+语言文件位于lang目录下，分为简体中文(zh_ch)、繁体中文(zh_tw)、英文(en_us)，每个语言目录下的文件要做前缀命名区分：infinity_module1.js、hyhive_module1.js  
+
+4. 接口请求配置文件说明  
+infinity接口配置  -- website/system/infinity.api.js  
+hyhive接口配置  -- website/system/hyhive.api.js  
+public接口配置  -- website/system/public.api.js  
+
 #### Configuration & Startup
+---------------------------
 > 项目配置和启动参数  
 
 * 综述：项目采用pm2进程管理器进行启动，同时pm2支持：监听指定的目录和文件变动自动重启node进程、cluster模式下多个node运行实例的负载均衡管理、服务运行日志处理、node进程监控面板，并且采用了mongodb 和 mongoose池进行持久化session处理。  
 
 * 启动流程说明: 首先需要将 `mongodb-linux-x86_64-rhel70-3.6.4.tgz、node-v8.11.1-linux-x64.gzip、node-express-react.tar.gz` 传输到指定的服务器的同级目录下，然后解压 node-express-react.tar.gz 启动安装脚本`init.sh`，安装好之后会自动启动生产环境(pm2.prod.sh)，生产环境下没有代码热更新功能，如果更新了node.js的代码，需要手动到服务器上执行 `pm2 restart node-express-react` ，开发者如果要启动开发环境则需要进入代码目录执行 `bash pm2.dev.sh`，开发环境下可以代码热更新，并且会自动开启日志信息打印。 一般 `pm2.prod.sh/pm2.dev.sh` 只用启动一次就行，启动之后前端进程的管理是通过pm2进程管理器来管理的，可以自己查看一下pm2命令，以下会有说明。  
-* 值得注意的是 服务器在重启之后 通过chkconfig注册的前端服务`frontend`会自动启动，但是是以`linux service`的形式启动的，此模式下不能用于开发者开发，因为不能使用pm2的命令和功能，一般用于生产环境，这个情况下要启动开发环境需要先关闭`frontend`服务 `systemctl stop frontend`(所有可执行命令 `service frontend start/stop`)，然后进入到前端代码目录手动执行相关的脚本文件(`bash pm2.dev.sh/pm2.prod.sh`)。
+* 值得注意的是 服务器在重启之后 通过chkconfig注册的前端服务`frontend`会自动启动，但是是以`linux service`的形式启动的，此模式下不能用于开发者开发，因为不能使用pm2的命令和功能，一般用于生产环境，这个情况下要启动开发环境需要先关闭`frontend`服务 `service frontend stop`(开启服务 `systemctl start frontend`)，然后进入到前端代码目录手动执行相关的脚本文件(`bash pm2.dev.sh/pm2.prod.sh`)。
 
 配置步骤如下:  
 
@@ -127,31 +213,31 @@ $: NODE_ENV=development node ./bin/www.js mongo-session mock
 $: DEBUG=express:* ./bin/www.js mock mongo-session
 ```
 
-5. 关于开机自启动问题
+5. `frontend`开机自启动服务  
+前端服务使用chkconfig命令注册为开机服务，
+重启或是从关机状态启动后，前端服务frontend会自动在后台启动
 ```sh
-# 说明: 前端服务使用chkconfig命令注册为开机服务
-# * 查看所有开机服务
-chkconfig --list
+# * 查看所有注册的chkconfig服务
+$: chkconfig --list
 #
-# 重启或是从关机状态启动后，前端服务frontend会自动在后台启动前端生产环境
 # * 查看前端服务frontend状态
 # * 此时pm2命令不可用于管理前端服务
-systemctl status frontend
-pm2 status
+$: systemctl status frontend
+$: pm2 status
 #
 # 如果开发者需要从这个状态进入开发环境进行代码更新并开启代码热重载功能
-# * 需要先关闭后台的frontend服务
+# * 需要先手动关闭后台的frontend服务
 # * 然后再进入前端代码目录，手动启动相关脚本
-systemctl stop frontend
-cd /opt/infinity/node-express-react
-bash pm2.dev.sh
-pm2 status
+$: service frontend stop
+$: cd /opt/allweb/node-express-react
+$: bash pm2.dev.sh
+$: pm2 status
 #
 # ! 注意: 使用systemctl命令是通过系统服务命令管理，主要目的是用于开启自启。
 # ! 注意: 开发阶段最好使用pm2管理，具有灵活性。
-systemctl status frontend
-systemctl start frontend
-systemctl stop frontend
+$: systemctl status frontend # 查看服务状态
+$: systemctl start frontend # 启动服务
+$: service frontend stop # 停止服务
 ```
 
 6. pm2启动node进程
