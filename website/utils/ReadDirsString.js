@@ -10,21 +10,21 @@ const fs = require('fs');
  /*
    Example =>
    {
-     'controller': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/controller',
-     'controller.hyhive': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/controller/hyhive',
-     'controller.infinity': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/controller/infinity',
-     'controller.ipsan': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/controller/ipsan',
-     'controller.public': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/controller/public',
-     'inspector': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/inspector',
-     'middleware': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/middleware',
-     'mock.hyhive': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/mock/hyhive',
-     'mock': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/mock',
-     'mock.infinity': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/mock/infinity',
-     'mock.public': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/mock/public',
-     'model.hyhive': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/model/hyhive',
-     'model': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/model',
-     'model.infinity': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/model/infinity',
-     'model.public': '/mnt/e/Ubuntu18.04/github/allweb-new/allweb/node-express-react/website/app/model/public'
+     'controller': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/controller',
+     'controller.hyhive': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/controller/hyhive',
+     'controller.infinity': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/controller/infinity',
+     'controller.ipsan': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/controller/ipsan',
+     'controller.public': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/controller/public',
+     'inspector': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/inspector',
+     'middleware': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/middleware',
+     'mock.hyhive': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/mock/hyhive',
+     'mock': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/mock',
+     'mock.infinity': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/mock/infinity',
+     'mock.public': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/mock/public',
+     'model.hyhive': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/model/hyhive',
+     'model': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/model',
+     'model.infinity': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/model/infinity',
+     'model.public': '/mnt/e/Ubuntu18.04/github/dview-new/dview/node-express-react/website/app/model/public'
    }
  */
 

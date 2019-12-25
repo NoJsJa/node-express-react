@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <link href="/styles/metro.min.css" rel="stylesheet">
+    <link href="/styles/metro-icons.min.css" rel="stylesheet">
+    <link href="/styles/datatom.style.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+    		padding-top: 20px;
+    		font-size: 16px;
+    		font-family: "Open Sans",serif;
+    		background-color:#2e3142 !important;
+    		margin: 0px;
+    		overflow: hidden;
+    	}
+    	input:focus{
+    		color: white;
+    	}
+    	input::-webkit-input-placeholder { /* WebKit browsers */
+    		color: white !important;
+    	}
+    	input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    		color: white !important;
+    	}
+    	input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    		color: white !important;
+    	}
+    	input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    		color: white !important;
+    	}
+
+    </style>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="min-width:800px;" id="login-top-nav">
+    	<div style="width:95%;margin-left: auto;margin-right: auto;">
+
+    		<div class="navbar-collapse dt_lgsy_tip_b dt_infinity_bar">
+    			<ul class="nav navbar-nav navbar-left">
+    				<li>
+    					<a class="dropdown-toggle" href="javascrpit:void(0);"><span class="glyphicon glyphicon-download-alt"></span><%=client%></a>
+    					<ul class="dropdown-menu">
+    						  <li style="color: white;"><a href="/download/client/Infinity_Nas_Win.zip">Infinity_Nas_Win.zip</a></li>
+    					</ul>
+    				</li>
+    				<li><a href="/download/chrome.zip"><span class="glyphicon glyphicon-download-alt"></span><%=chrome_browser%></a></li>
+    			</ul>
+    		</div>
+    		<nav style="position:absolute; top:13px;right:20px">
+    			<form id="loginInfinity" class="form-inline" role="form" action="/login" method="post">
+    				<div class="form-group">
+    					<label class="sr-only" for="exampleInputEmail2">User</label>
+    					<input type="text" name="name"  class="form-control" id="exampleInputEmail2" placeholder="User">
+    				</div>
+    				<div class="form-group">
+    					<label class="sr-only" for="exampleInputPassword2">Password</label>
+    					<input type="password" name="pwd" class="form-control" id="exampleInputPassword2" placeholder="Password">
+    				</div>
+    				<button  id="btn_login" type="submit"  class="btn btn-default btn-info"><span style="top:-3px;"class="glyphicon glyphicon-arrow-right"></span></button>
+    			</form>
+    		</nav>
+    	</div>
+    </div>
+
+    <div>
+    	<p>
+    		<img width="634px" height="140px" src="/images/infinity_logo.png" style="position: absolute;top: 8%;left: 65%;margin-left:-500px;margin-top: 200px;">
+    	</p>
+    </div>
+
+  <!-- 底部 -->
+
+    <nav id="nav_bottom_fixed" class="navbar navbar-default navbar-fixed-bottom dt_lgsy_bs_a" role="navigation">
+      <ul class="nav navbar-nav" style="padding:0;margin:0;position:absolute;">
+        <a href="javascript:;" style="float:left;margin-left:20px;color:#6D7A61;">
+          <span class="glyphicon glyphicon-question-sign"></span>&nbsp;help
+        </a>
+
+        <li class="dropdown" style="margin-left:12px;">
+          <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="padding:0;background-color:#2D2D2D;">
+            <span style="margin-right:12px;">|</span>
+            <span class="mif-earth"></span>
+            <span class="now-lang"><%=now_lang%></span>
+            <span style="margin-left:12px;">|</span>
+          </a>
+          <ul class="dropdown-menu" role="menu" style="right:-56px;min-width:99px;width:99px;">
+            <li class="js-language" lang="zh_cn"><a href="javascript:;"><%=chinese%></a></li>
+            <li class="js-language" lang="en_us"><a href="javascript:;"><%=english%></a></li>
+            <!--<li class="js-language" lang="zh_TW"><a href="javascript:;">{{ publicLang.zh_tw }}</a></li>-->
+          </ul>
+        </li>
+      </ul>
+      <div>
+          <span>&nbsp;&nbsp;INFINITY&nbsp;v<%=version%>
+          </span>
+        </span>
+      </div>
+    </nav>
+
+  </body>
+
+  <script src="/js/lib/three.min.js"></script>
+  <script src="/js/lib/jquery-2.1.4.min.js"></script>
+  <script src="/js/lib/bootstrap.min.js"></script>
+  <script src="/js/login.js"></script>
+
+</html>

@@ -12,7 +12,8 @@ const path = require('path');
  * @constructor
  */
 const ModuleLoader = function(dir, name) {
-  return require(path.resolve(_path[dir], name));
+  const p = path.join(_path[dir], name);
+  return require(p);
 }
 
 global.ModuleLoader = ModuleLoader;

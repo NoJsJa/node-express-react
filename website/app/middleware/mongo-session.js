@@ -11,7 +11,7 @@ const MongoStore = require('connect-mongo')(session);
 
 function MongoSession(app) {
 
-    console.log('------- mongo-session is working -------');
+    console.log('>>> mongo-session is working... ');
 
     app.use(session({
             secret: settings.cookieSecret,

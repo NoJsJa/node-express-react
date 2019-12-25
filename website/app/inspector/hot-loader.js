@@ -20,9 +20,9 @@ const watchFile = function (filepath) {
             cleanCache(fullpath);
             try {
                 const routes = require(fullpath);
-                console.log("reload module -- ", filename);
+                console.log(">>> reload module... ", filename);
             } catch (ex) {
-                console.log('module update failed');
+                console.log('>>> module update failed... ');
                 console.error(ex);
             }
         }

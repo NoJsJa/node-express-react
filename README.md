@@ -15,6 +15,10 @@
 
 作为调用后台API的node中间服务层，除此之外还包含：用户登录管理、用户session管理、访问权限控制、访问日志记录、资源国际化(language设置)、前端静态文件托管、基本服务配置和启动、服务进程负载均衡。
 
+> 生产环境 & 开发环境  
+
+开发环境下服务的启动是通过shell脚本[pm2.dev.sh]手动启动的，第一次启动之前需要执行shell脚本[init.sh]进行初始化(注意需要在脚本父文件夹同级目录下存放mongodb和node.js的压缩包文件)，初始化后node.js进程由pm2进程管理器管理，可以实现更新热加载和无缝重启；生产环境下是通过systemd服务管理的(服务启动脚本pm2.prod.sh)，用于生产环境下的开机自启和服务注册，生产环境下不能热加载代码，因此不能用于开发工作，可以先使用systemctl命令停止服务然后运行启动pm2.dev.sh开发环境脚本启动开发环境。
+
 > 全局变量  
 
 * ModuleLoader -- [function] -- 模块加载器
@@ -33,7 +37,7 @@ $: systemctl status frontend
 # 启动前端服务
 $: systemctl start frontend
 # 停止前端服务
-$: service frontend stop
+$: systemctl stop frontend
 ```
 2. pm2管理命令
 ```sh
@@ -214,12 +218,9 @@ $: DEBUG=express:* ./bin/www.js mock mongo-session
 ```
 
 5. `frontend`开机自启动服务  
-前端服务使用chkconfig命令注册为开机服务，
+前端服务使用systemd注册为开机服务，
 重启或是从关机状态启动后，前端服务frontend会自动在后台启动
 ```sh
-# * 查看所有注册的chkconfig服务
-$: chkconfig --list
-#
 # * 查看前端服务frontend状态
 # * 此时pm2命令不可用于管理前端服务
 $: systemctl status frontend
@@ -229,7 +230,7 @@ $: pm2 status
 # * 需要先手动关闭后台的frontend服务
 # * 然后再进入前端代码目录，手动启动相关脚本
 $: service frontend stop
-$: cd /opt/allweb/node-express-react
+$: cd /opt/dview/node-express-react
 $: bash pm2.dev.sh
 $: pm2 status
 #
@@ -237,7 +238,7 @@ $: pm2 status
 # ! 注意: 开发阶段最好使用pm2管理，具有灵活性。
 $: systemctl status frontend # 查看服务状态
 $: systemctl start frontend # 启动服务
-$: service frontend stop # 停止服务
+$: systemctl stop frontend # 停止服务
 ```
 
 6. pm2启动node进程

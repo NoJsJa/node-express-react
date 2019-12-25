@@ -13,11 +13,12 @@ getPath() {
   done
   if [ -z $FrontEndDir ] ; then
     echo ">>> set default FrontEndDir ... "
-    FrontEndDir=/opt/Web/node-express-react
+    FrontEndDir=/opt/allweb/node-express-react
   fi
 }
 
 getPath
+FrontEndDir=`pwd`
 dbpath="$FrontEndDir/mongodb/data"
 dblogpath="$FrontEndDir/mongodb/logs/"
 dbhost='0.0.0.0'
@@ -28,27 +29,27 @@ mkdir "$dbpath" -p
 mkdir "$dblogpath" -p
 
 # 02 start mongodb
-echo ">>> now check mongodb $port..."
-grep_port=`netstat -tlpn | grep "\b$port\b"`
-
-if [ -n "$grep_port" ]
-then
-  echo ">>> mongodb already started in port:$port ... "
-else
-  echo ">>> trying to start mongodb service ... "
-
-  mongod \
-  --dbpath="$dbpath" \
-  --logpath="$dblogpath/mongod.log" \
-  --bind_ip="$dbhost" --logappend --quiet --journal --fork
-fi
+# echo ">>> now check mongodb $port..."
+# grep_port=`netstat -tlpn | grep "\b$port\b"`
+#
+# if [ -n "$grep_port" ]
+# then
+#   echo ">>> mongodb already started in port:$port ... "
+# else
+#   echo ">>> trying to start mongodb service ... "
+#
+#   mongod \
+#   --dbpath="$dbpath" \
+#   --logpath="$dblogpath/mongod.log" \
+#   --bind_ip="$dbhost" --logappend --quiet --journal --fork
+# fi
 
 # 03 dbinit
-mongo $FrontEndDir/mongodb/db-init\(mongo-shell\).js
+# mongo $FrontEndDir/mongodb/db-init\(mongo-shell\).js
 
 # 04 chmod file
-sudo chmod 755 $FrontEndDir/mongodb/db-check.sh
-sudo chmod 755 $FrontEndDir/mongodb/db-stop.sh
+# sudo chmod 755 $FrontEndDir/mongodb/db-check.sh
+# sudo chmod 755 $FrontEndDir/mongodb/db-stop.sh
 
 #------------------- start pm2 service --------------------#
 
@@ -66,6 +67,8 @@ sudo chmod 755 $FrontEndDir/mongodb/db-stop.sh
 # stop node process before
 pm2 delete node-express-react
 systemctl stop frontend
+
+cd $FrontEndDir
 
 NODE_ENV=development \
 pm2 start $FrontEndDir/bin/www.js \

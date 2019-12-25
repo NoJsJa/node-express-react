@@ -1,4 +1,4 @@
-[UNIT]
+[Unit]
 # 服务描述
 Description=FrontEnd Service
 # 服务描述
@@ -6,16 +6,18 @@ Description=FrontEnd Service
 After=network.target
 
 [Service]
-# 定义Service的运行类型，一般是forking(后台运行)
-# Type=forking
+# 定义Service的运行类型，一般是forking(后台运行) cp daemon-reload enable restart
 Type=simple
+User=root
+Group=root
+KillMode=control-group
+PIDFile=/run/frontend.pid
 
 # 定义systemctl start|stop|reload *.service 的执行方法
 # 注：ExecStartPre为启动前执行的命令
-ExecStartPre=
-ExecStart=/opt/Web/node-express-react/pm2.prod.sh
-ExecReload=/opt/Web/node-express-react/pm2.prod.sh
-ExecStop=/opt/Web/node-express-react/scripts/frontend -stop
+ExecStart=/opt/allweb/node-express-react/pm2.prod.sh
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/opt/allweb/node-express-react/scripts/frontend --stop
 
 # 创建私有的内存临时空间
 PrivateTmp=True

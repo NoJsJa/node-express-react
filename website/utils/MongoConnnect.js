@@ -13,9 +13,9 @@ mongoose.Promise = global.Promise;
 // open db connection
 mongoose.connect(mongoConfig.connectionString,
     mongoConfig.options, function (err, res) {
-    console.log(`------- connected: ${mongoConfig.connectionString} -------`);
+    console.log(`>>> connected: ${mongoConfig.connectionString}...`);
 
-    err && console.log(`[mongoose log] Error connecting to: ${mongoConfig.connectionString} . ${err}`);
+    err && console.log(`>>> [mongoose log] Error connecting to: ${mongoConfig.connectionString} . ${err}`);
 });
 
 module.exports = mongoose;

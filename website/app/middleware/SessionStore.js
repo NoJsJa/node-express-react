@@ -17,7 +17,7 @@ function SessionStore(isMongoAvailable, app) {
       console.log(path.resolve(__dirname, '../../../scripts/db-check.sh'));
       execFileSync(path.resolve(__dirname, '../../../scripts/db-check.sh'));  // connect mongodb if mongodb is disconnected
     } catch (err) {
-      console.log('------- An error occurred when checking mognodb status -------');
+      console.log('>>> An error occurred when checking mognodb status... ');
       process.exit(1);
     }
 
@@ -25,7 +25,7 @@ function SessionStore(isMongoAvailable, app) {
     MongoSession = require(path.resolve(__dirname, 'mongo-session.js'));  // store session in mongodb
     MongoSession(app);
 
-  }else {  // store in memory
+  } else {  // store in memory
 
     const sess =  {
       secret: 'infinity',

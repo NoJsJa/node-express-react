@@ -15,11 +15,12 @@ done
 
 # 停止pm2进程
 stop() {
-  # for pnumber in `pgrep PM2`
+  # for pnumber in `pgrep pm2`
   # do
   #   kill -3 $pnumber
   # done
-  pkill PM2
+  pm2 stop all
+  pkill -3 pm2
 }
 
 # 重启pm2进程
@@ -29,18 +30,21 @@ start() {
 }
 
 # # Main Action
-case $1 in
+case "$1" in
 
-  start )
+  start | --start )
     start 'prod'
+    exit 0
   ;;
 
-  stop )
+  stop | --stop )
     stop
+    exit 0
   ;;
 
-  startDev )
+  startDev | --start-dev )
     start 'dev'
+    exit 0
   ;;
 
 esac
